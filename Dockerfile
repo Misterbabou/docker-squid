@@ -103,7 +103,16 @@ ENV SQUID_CACHE_DIR=/var/spool/squid \
     SQUID_LOG_DIR=/var/log/squid \
     SQUID_USER=proxy
 
-COPY --from=builder /build/squid_0-1_amd64.deb /tmp/squid.deb
+# Detect architecture
+RUN case $(dpkg --print-architecture) in \
+        amd64) ARCH=amd64 ;; \
+        arm64) ARCH=arm64 ;; \
+        armhf) ARCH=armv7 ;; \
+        *) ARCH=unknown ;; \
+    esac && echo "Detected architecture: $ARCH"
+
+# Copy the package based on detected architecture
+COPY --from=builder /build/squid_0-1_${ARCH}.deb /tmp/squid.deb
 
 RUN apt update \
  && apt -qy install libssl3 /tmp/squid.deb \
