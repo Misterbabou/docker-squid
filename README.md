@@ -1,5 +1,12 @@
 # squid
 
+---
+[![Docker Pulls](https://img.shields.io/docker/pulls/misterbabou/squid.svg?logo=docker)](https://hub.docker.com/r/misterbabou/squid)
+[![GitHub Release](https://img.shields.io/github/release/Misterbabou/docker-squid.svg?logo=github&logoColor=959DA5)](https://github.com/Misterbabou/docker-squid/releases/latest)
+[![GitHub last commit](https://img.shields.io/github/last-commit/Misterbabou/docker-squidl?logo=github&logoColor=959DA5)](https://github.com/Misterbabou/docker-squid/commits/main)
+[![MIT Licensed](https://img.shields.io/github/license/Misterbabou/docker-squid.svg?logo=github&logoColor=959DA5)](https://github.com/Misterbabou/docker-squid/blob/main/LICENSE.md)
+---
+
 Docker image of squid based on a bookworm debian-slim image.
 
 The Goal of this repo is to build a debian based docker running always the last version of squid release.
