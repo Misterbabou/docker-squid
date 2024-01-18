@@ -103,7 +103,11 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 ENV SQUID_CACHE_DIR=/var/spool/squid \
     SQUID_LOG_DIR=/var/log/squid \
-    SQUID_USER=proxy
+    SQUID_USER=proxy \
+    SQUID_SAMPLE_CONF=/opt/squid.conf.sample \
+    SQUID_CONF=/conf/squid.conf
+
+COPY ./squid.conf.sample ${SQUID_SAMPLE_CONF}
 
 COPY --from=builder /build/squid.deb /tmp/squid.deb
 

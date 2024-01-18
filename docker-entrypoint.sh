@@ -12,8 +12,14 @@ create_cache_dir() {
   chown -R ${SQUID_USER}:${SQUID_USER} ${SQUID_CACHE_DIR}
 }
 
+create_squid_conf() {
+  cp -n ${SQUID_SAMPLE_CONF} ${SQUID_CONF}
+  chown -R ${SQUID_USER}:${SQUID_USER} ${SQUID_CONF}
+}
+
 create_log_dir
 create_cache_dir
+create_squid_conf
 
 # allow arguments to be passed to squid
 if [[ ${1:0:1} = '-' ]]; then
@@ -28,10 +34,10 @@ fi
 if [[ -z ${1} ]]; then
   if [[ ! -d ${SQUID_CACHE_DIR}/00 ]]; then
     echo "Initializing cache..."
-    $(which squid) -N -f /conf/squid.conf -z
+    $(which squid) -N -f ${SQUID_CONF} -z
   fi
   echo "Starting squid..."
-  exec $(which squid) -f /conf/squid.conf -NYCd 1 ${EXTRA_ARGS}
+  exec $(which squid) -f ${SQUID_CONF} -NYCd 1 ${EXTRA_ARGS}
 else
   exec "$@"
 fi
