@@ -42,45 +42,14 @@ services:
             - ./log:/var/log/squid
 ```
 
-
-:warning: Make sure to copy or to have a basic configuration on your directory named squid.conf on your volume link to /conf
-
-Create conf directory (depending on your volume path):
-```
-mkdir conf
-```
-
-Create a conf file named squid.conf : 
-```
-sudo tee -a ./conf/squid.conf <<EOF
-# Default Squid Conf
-
-# 100 Mo cache
-cache_dir ufs /var/spool/squid 100 16 256
-
-#################################### ACL ####################################
-
-acl lan src 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 # RFC1918
-acl Safe_ports port 80 
-acl Safe_ports port 443
-############################################################################
-
-# Rules
-http_access deny !Safe_ports
-http_access allow lan
-http_access deny
-
-# Listen port
-http_port 3128  
-EOF
-```
-
 Run the application
 ```
 docker-compose up -d
 ```
 
 ## Apply changes on squid.conf
+
+change the default configuration in `./conf/squid.conf`
 
 ### Check the configuration
 ```
