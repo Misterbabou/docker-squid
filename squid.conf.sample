@@ -1,19 +1,32 @@
 # Default Squid Conf
 
+# Log format
+logformat combined %>a %[ui %[un [%tl] "%rm %ru HTTP/%rv" %>Hs %st %>st %<st %>sh %<sh %{Referer}>h" "%{User-Agent}>h" %Ss:%Sh
+
+# Access log location and format
+access_log daemon:/var/log/squid/access.log combined
+
 # 100 Mo cache
 cache_dir ufs /var/spool/squid 100 16 256
 
 #################################### ACL ####################################
-
 acl lan src 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 # RFC1918
-acl Safe_ports port 80 
-acl Safe_ports port 443
+acl Safe_ports port 80 443
 ############################################################################
 
 # Rules
 http_access deny !Safe_ports
 http_access allow lan
-http_access deny
+http_access deny all
+
+refresh_pattern ^ftp: 1440 20% 10080
+refresh_pattern ^gopher: 1440 0% 1440
+refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
+refresh_pattern (Release|Packages(.gz)*)$ 0 20% 2880
+refresh_pattern . 0 20% 4320
 
 # Listen port
 http_port 3128
+
+shutdown_lifetime 3 seconds
+httpd_suppress_version_string on
