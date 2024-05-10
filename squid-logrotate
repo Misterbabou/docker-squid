@@ -1,4 +1,4 @@
-/var/log/*.log {
+/var/log/squid/*.log {
 	daily
 	compress
 	rotate $LOGROTATE_RETENTION
