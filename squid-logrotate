@@ -1,0 +1,12 @@
+/var/log/*.log {
+	daily
+	compress
+	rotate $LOGROTATE_RETENTION
+	missingok
+	notifempty
+	sharedscripts
+	create 644 proxy proxy
+	postrotate
+		/usr/sbin/squid -f ${SQUID_CONF} -k rotate
+	endscript
+}

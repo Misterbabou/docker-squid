@@ -28,18 +28,19 @@ It's recommanded to use docker compose to run this application
 
 Use the provided docker-compose.yml or create `docker-compose.yml` file:
 ```
-version: '3'
 services:
     squid:
         container_name: squid
         image: misterbabou/squid:latest
         restart: unless-stopped
         ports:
-            - 3128:3128
+          - 3128:3128
+        environment:
+          #- LOGROTATE_RETENTION=30 #Days retention for squid log
         volumes:
-            - ./conf:/conf
-            - ./cache:/var/spool/squid
-            - ./log:/var/log/squid
+          - ./conf:/conf
+          - ./cache:/var/spool/squid
+          - ./log:/var/log/squid
 ```
 
 Run the application
@@ -53,13 +54,13 @@ change the default configuration in `./conf/squid.conf`
 
 ### Check the configuration
 ```
-docker exec squid bash -c "/usr/sbin/squid -f /conf/squid.conf -k parse"
+docker exec squid bash -c "/usr/sbin/squid -f ${SQUID_CONF} -k parse"
 ```
 ### Apply the configuration
 ```
-docker exec squid bash -c "/usr/sbin/squid -f /conf/squid.conf -k reconfigure"
+docker exec squid bash -c "/usr/sbin/squid -f ${SQUID_CONF} -k reconfigure"
 ```
 
 ## To Do
 
-- Logrotate log files
+:heavy_check_mark: Logrotate log files (added in 6.9.1)

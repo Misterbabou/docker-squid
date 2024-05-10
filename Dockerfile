@@ -105,14 +105,18 @@ ENV SQUID_CACHE_DIR=/var/spool/squid \
     SQUID_LOG_DIR=/var/log/squid \
     SQUID_USER=proxy \
     SQUID_SAMPLE_CONF=/opt/squid.conf.sample \
-    SQUID_CONF=/conf/squid.conf
+    SQUID_CONF=/conf/squid.conf \
+    LOGROTATE_RETENTION=30
 
 COPY ./squid.conf.sample ${SQUID_SAMPLE_CONF}
 
 COPY --from=builder /build/squid.deb /tmp/squid.deb
 
-RUN apt update \
- && apt -qy install libssl3 /tmp/squid.deb \
+RUN apt-get update && apt-get install -y logrotate systemctl cron
+
+COPY ./squid-logrotate /etc/logrotate.d/squid
+
+RUN apt -qy install libssl3 /tmp/squid.deb \
  && rm -rf /var/lib/apt/lists/*
 
 COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh

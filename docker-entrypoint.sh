@@ -17,6 +17,8 @@ create_squid_conf() {
   chown -R ${SQUID_USER}:${SQUID_USER} ${SQUID_CONF}
 }
 
+systemctl is-active --quiet cron || systemctl enable cron --now
+
 create_log_dir
 create_cache_dir
 create_squid_conf
