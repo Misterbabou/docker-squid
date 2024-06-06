@@ -13,8 +13,11 @@ The Goal of this repo is to build a debian based docker running always the last 
 
 ## Version TAG
 
-All docker image are build with the following format : <squid_package_version>.<docker-squid-version>
-For instance for Squid version 6.9 the first image tag will be 6.9.0 
+All docker image are build with the following format : 
+```
+<squid_package_version>.<docker-squid-version>
+```
+For instance for Squid version `6.9` the first image tag will be `6.9.0` 
 If minor changes are made to the docker (without changing the squid version) last degit will be incremented. 
 
 ## Important note 
