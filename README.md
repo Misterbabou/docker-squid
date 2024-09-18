@@ -1,4 +1,4 @@
-# squid
+# Docker Squid
 
 ---
 [![Docker Pulls](https://img.shields.io/docker/pulls/misterbabou/squid.svg?logo=docker)](https://hub.docker.com/r/misterbabou/squid)
@@ -11,6 +11,12 @@ Docker image of squid based on a bookworm debian-slim image.
 
 The Goal of this repo is to build a debian based docker running always the last version of squid release.
 
+> [!IMPORTANT]
+>
+>A recent security Audit was made on Squid showing multiple vulnerabilities. Most of them are not resolved yet. 
+https://github.com/MegaManSec/Squid-Security-Audit. Thanks to the work of squid team some of them are patched on recent releases 6.X but most linux distro do not have a recent squid package available.
+The goal of those builds is to provide a simple running docker image resolving security issues patched on new squid releases.
+
 ## Version TAG
 
 All docker image are build with the following format : 
@@ -19,16 +25,6 @@ All docker image are build with the following format :
 ```
 For instance for Squid version `6.9` the first image tag will be `6.9.0` 
 If minor changes are made to the docker (without changing the squid version) last degit will be incremented. 
-
-## Important note 
-
-A recent security Audit was made on Squid showing multiple vulnerabilities. Most of them are not resolved yet. 
-
-https://github.com/MegaManSec/Squid-Security-Audit
-
-Thanks to the work of squid team some of them are patched on recent releases 6.X but most linux distro do not have a recent squid package available.
-
-The goal of this builds is to provide a simple running docker image resolving security issues patched on new squid releases.
 
 ## Configuration
 
