@@ -28,8 +28,9 @@ If minor changes are made to the docker (without changing the squid version) las
 
 ## Configuration
 
-It's recommanded to use docker compose to run this application
-
+> [!NOTE]
+>
+>It's recommanded to use docker compose to run this application. [Install documentation](https://docs.docker.com/compose/install/)
 
 Use the provided docker-compose.yml or create `docker-compose.yml` file:
 ```
@@ -41,7 +42,8 @@ services:
         ports:
           - 3128:3128
         environment:
-          #- LOGROTATE_RETENTION=30 #Days retention for squid log
+          - TZ=Europe/Paris #Set your timezone
+          #- LOGROTATE_RETENTION=30 #Days retention for squid log; default is 30
         volumes:
           - ./conf:/conf
           - ./cache:/var/spool/squid
@@ -50,7 +52,7 @@ services:
 
 Run the application
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 ## Apply changes on squid.conf
@@ -59,11 +61,11 @@ change the default configuration in `./conf/squid.conf`
 
 ### Check the configuration
 ```
-docker exec squid bash -c "/usr/sbin/squid -f ${SQUID_CONF} -k parse"
+docker exec squid bash -c "/usr/sbin/squid -f \${SQUID_CONF} -k parse"
 ```
 ### Apply the configuration
 ```
-docker exec squid bash -c "/usr/sbin/squid -f ${SQUID_CONF} -k reconfigure"
+docker exec squid bash -c "/usr/sbin/squid -f \${SQUID_CONF} -k reconfigure"
 ```
 
 ## To Do
