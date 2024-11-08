@@ -1,8 +1,5 @@
 # Default Squid Conf
 
-# Log format
-logformat combined %>a %[ui %[un [%tl] "%rm %ru HTTP/%rv" %>Hs %st %>st %<st %>sh %<sh %{Referer}>h" "%{User-Agent}>h" %Ss:%Sh
-
 # Access log location and format
 access_log daemon:/var/log/squid/access.log combined
 
