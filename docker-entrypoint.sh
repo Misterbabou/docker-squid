@@ -38,6 +38,10 @@ if [[ -z ${1} ]]; then
     echo "Initializing cache..."
     $(which squid) -N -f ${SQUID_CONF} -z
   fi
+  if [[ ! -d ${SQUID_SSL_DB_DIR}/certs ]]; then
+    echo "Initializing ssl_db_dir..."
+    /usr/lib/squid/security_file_certgen -c -s ${SQUID_SSL_DB_DIR}
+  fi
   echo "Starting squid..."
   exec $(which squid) -f ${SQUID_CONF} -NYCd 1 ${EXTRA_ARGS}
 else
