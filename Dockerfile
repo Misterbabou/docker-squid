@@ -103,6 +103,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 ENV SQUID_CACHE_DIR=/var/spool/squid \
     SQUID_LOG_DIR=/var/log/squid \
+    SQUID_SSL_DB_DIR=/var/lib/ssl_db \
     SQUID_USER=proxy \
     SQUID_SAMPLE_CONF=/opt/squid.conf.sample \
     SQUID_CONF=/conf/squid.conf \
