@@ -1,4 +1,4 @@
-from github import Github
+import requests
 import re
 import os
 import sys
@@ -11,15 +11,21 @@ def extract_version_and_release(source_url):
 
 # Function to fetch the latest version and release from the website
 def fetch_latest_version_and_release(repo_path):
-    token = None
-    g = Github(token)
-    repo = g.get_repo(repo_path)
-    latest = repo.get_latest_release()
-    latest_version = latest.title
-    # Remove the 'v' prefix
-    release = latest_version[1:]
-    version, subversion = release.split('.')
-    return version, release
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:99.0) Gecko/20100101 Firefox/99.0"  # Avoid anti-bot detection
+    }
+    url = f"https://api.github.com/repos/{repo_path}/releases/latest"
+    # Make the GET request to the GitHub API
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+        latest_version = response.json()["name"]
+        # Remove the 'v' prefix
+        release = latest_version[1:]
+        version, subversion = release.split('.')
+        return version, release
+    else:
+        raise Exception(f"Failed to fetch releases: {response.status_code} - {response.text}")
 
 # Function to update the Dockerfile with the new SOURCEURL
 def update_dockerfile(dockerfile_path, new_source_url):
