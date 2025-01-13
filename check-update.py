@@ -1,4 +1,4 @@
-import requests
+from github import Github
 import re
 import os
 import sys
@@ -10,19 +10,16 @@ def extract_version_and_release(source_url):
     return version, release
 
 # Function to fetch the latest version and release from the website
-def fetch_latest_version_and_release(url):
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:99.0) Gecko/20100101 Firefox/99.0"  # Avoid anti-bot detection
-    }
-    response = requests.get(url, headers=headers)  # Include headers in the request
-    if response.status_code == 200:
-        html_content = response.text
-        version_pattern = r'<tr>.*?<td><a href="v(\d+)/">\d+(?:\.\d+)?</a></td><td>.*?</td><td>(\d+\.\d+)</td>.*?</tr>'
-        versions = re.findall(version_pattern, html_content, re.DOTALL)
-        return versions
-    else:
-        print(f"Failed to retrieve the page. Status code: {response.status_code}")
-        return []
+def fetch_latest_version_and_release(repo_path):
+    token = None
+    g = Github(token)
+    repo = g.get_repo(repo_path)
+    latest = repo.get_latest_release()
+    latest_version = latest.title
+    # Remove the 'v' prefix
+    release = latest_version[1:]
+    version, subversion = release.split('.')
+    return version, release
 
 # Function to update the Dockerfile with the new SOURCEURL
 def update_dockerfile(dockerfile_path, new_source_url):
@@ -64,23 +61,21 @@ def main():
     current_version, current_release = extract_version_and_release(dockerfile_source_url)
 
     # Fetch the latest versions and releases from the website
-    latest_versions = fetch_latest_version_and_release('http://www.squid-cache.org/Versions/')
+    latest_version, latest_release = fetch_latest_version_and_release('squid-cache/squid')
 
     # Check if there are any versions found
-    if latest_versions:
-        for version, release in latest_versions:
-            print(f"Actual Version: {current_version} Release: {current_release}")
-            print(f"Latest Version: {version} Release: {release}")
+    if latest_version and latest_release:
+        print(f"Actual Version: {current_version} Release: {current_release}")
+        print(f"Latest Version: {latest_version} Release: {latest_release}")
 
-            # Compare versions and releases
-            if (int(version) > int(current_version)) or (int(version) == int(current_version) and release > current_release):
-                print(f"Updating SOURCEURL to the latest version: v{version} and release: {release}")
-                new_source_url = f"http://www.squid-cache.org/Versions/v{version}/squid-{release}.tar.gz"
-                update_dockerfile(dockerfile_path, new_source_url)  # Update the Dockerfile
-                action_set_output("new_version", release)
-                break
-            else:
-                print("No update needed.")
+        # Compare versions and releases
+        if (int(latest_version) > int(current_version)) or (int(latest_version) == int(current_version) and latest_release > current_release):
+            print(f"Updating SOURCEURL to the latest version: v{latest_version} and release: {latest_release}")
+            new_source_url = f"http://www.squid-cache.org/Versions/v{latest_version}/squid-{latest_release}.tar.gz"
+            update_dockerfile(dockerfile_path, new_source_url)  # Update the Dockerfile
+            action_set_output("new_version", latest_release)
+        else:
+            print("No update needed.")
     else:
         print("No versions found.")
 
