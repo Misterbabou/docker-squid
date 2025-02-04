@@ -5,8 +5,8 @@ import sys
 
 # Function to extract version and release from SOURCEURL
 def extract_version_and_release(source_url):
-    version = source_url.split('/')[4][1:]  # Extract Version
-    release = source_url.split('/')[5].split('-')[1].rsplit('.', 2)[0] # Extract Release
+    release = source_url.split('/')[8].split('-')[1].rsplit('.', 2)[0] # Extract Release
+    version = release.split('.')[0] # Extract Version
     return version, release
 
 # Function to fetch the latest version and release from the website
@@ -77,7 +77,8 @@ def main():
         # Compare versions and releases
         if (int(latest_version) > int(current_version)) or (int(latest_version) == int(current_version) and latest_release > current_release):
             print(f"Updating SOURCEURL to the latest version: v{latest_version} and release: {latest_release}")
-            new_source_url = f"http://www.squid-cache.org/Versions/v{latest_version}/squid-{latest_release}.tar.gz"
+            latest_release_number= latest_release.split('.')[1]
+            new_source_url = f"https://github.com/squid-cache/squid/releases/download/SQUID_{latest_version}_{latest_release_number}/squid-{latest_release}.tar.gz"
             update_dockerfile(dockerfile_path, new_source_url)  # Update the Dockerfile
             action_set_output("new_version", latest_release)
         else:

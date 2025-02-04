@@ -49,7 +49,7 @@ ENV requires=" \
  && apt-get -qy install ${builddeps} \
  && apt-get -qy build-dep squid \
  && mkdir /build \
- && curl -o /build/squid-source.tar.gz ${SOURCEURL} \
+ && curl -o /build/squid-source.tar.gz -L ${SOURCEURL} \
  && cd /build \
  && tar --strip=1 -xf squid-source.tar.gz \
  && ./configure --prefix=/usr \
