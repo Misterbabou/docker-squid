@@ -1,4 +1,4 @@
-FROM debian:bookworm AS builder
+FROM --platform=$BUILDPLATFORM debian:bookworm AS builder
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -38,21 +38,18 @@ ENV requires=" \
     openssl \
     "
 
- RUN rm -r /etc/apt/sources.list.d/* \ 
- && echo "deb http://deb.debian.org/debian bookworm main" > /etc/apt/sources.list.d/source.list \
- && echo "deb-src http://deb.debian.org/debian bookworm main" >> /etc/apt/sources.list.d/source.list \
- && echo "deb http://deb.debian.org/debian-security/ bookworm-security main" >> /etc/apt/sources.list.d/source.list \
- && echo "deb-src http://deb.debian.org/debian-security/ bookworm-security main" >> /etc/apt/sources.list.d/source.list \
- && echo "deb http://deb.debian.org/debian bookworm-updates main" >> /etc/apt/sources.list.d/source.list \
- && echo "deb-src http://deb.debian.org/debian bookworm-updates main" >> /etc/apt/sources.list.d/source.list \
+RUN echo "deb-src [signed-by=/usr/share/keyrings/debian-archive-keyring.gpg] http://deb.debian.org/debian bookworm main" > /etc/apt/sources.list.d/source.list \
+ && echo "deb-src [signed-by=/usr/share/keyrings/debian-archive-keyring.gpg] http://deb.debian.org/debian bookworm-updates main" >> /etc/apt/sources.list.d/source.list \
  && apt-get -qy update \
  && apt-get -qy install ${builddeps} \
+ && apt-get -qy upgrade \
  && apt-get -qy build-dep squid \
  && mkdir /build \
  && curl -o /build/squid-source.tar.gz -L ${SOURCEURL} \
  && cd /build \
  && tar --strip=1 -xf squid-source.tar.gz \
  && ./configure --prefix=/usr \
+        --with-build-environment=default \
         --localstatedir=/var \
         --libexecdir=/usr/lib/squid \
         --datadir=/usr/share/squid \
@@ -95,9 +92,9 @@ ENV requires=" \
 
 RUN mv /build/*.deb /build/squid.deb
 
-FROM debian:bookworm-slim
+FROM --platform=$BUILDPLATFORM debian:bookworm-slim
 
-label maintainer="Misterbabou"
+LABEL maintainer="Misterbabou"
 
 ARG DEBIAN_FRONTEND=noninteractive
 
