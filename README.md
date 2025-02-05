@@ -29,7 +29,7 @@ If minor changes are made to the docker (without changing the squid version) las
 
 > [!WARNING]
 >
-> Starting on version `6.13.9` arm64 version is available with image tag <squid_package_version>.<docker-squid-version>-arm
+> Starting on version `6.13.9` arm64 version is available with image tag `<squid_package_version>.<docker-squid-version>-arm`
 
 ## Configuration
 
