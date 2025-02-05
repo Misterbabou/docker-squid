@@ -1,9 +1,11 @@
 name: Publish Docker ARM Image
 
-on:
-  push:
-    tags:
-      - '*'  # Déclencheur pour les tags versionnés
+on: workflow_dispatch
+
+#on:
+#  push:
+#    tags:
+#      - '*'  # Déclencheur pour les tags versionnés
 
 jobs:
   build:
