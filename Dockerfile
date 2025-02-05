@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM debian:bookworm AS builder
+FROM debian:bookworm AS builder
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -92,7 +92,7 @@ RUN echo "deb-src [signed-by=/usr/share/keyrings/debian-archive-keyring.gpg] htt
 
 RUN mv /build/*.deb /build/squid.deb
 
-FROM --platform=$BUILDPLATFORM debian:bookworm-slim
+FROM debian:bookworm-slim
 
 LABEL maintainer="Misterbabou"
 
