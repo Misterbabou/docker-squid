@@ -1,11 +1,9 @@
 name: Publish Docker ARM Image
 
-on: workflow_dispatch
-
-#on:
-#  push:
-#    tags:
-#      - '*'  # Déclencheur pour les tags versionnés
+on:
+  push:
+    tags:
+      - '*'  # Déclencheur pour les tags versionnés
 
 jobs:
   build:
@@ -40,4 +38,4 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/squid:${{ env.VERSION }}
-            ${{ secrets.DOCKER_USERNAME }}/squid:latest
+#            ${{ secrets.DOCKER_USERNAME }}/squid:latest
