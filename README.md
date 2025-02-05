@@ -11,10 +11,6 @@ Docker image of squid based on a bookworm debian-slim image.
 
 The Goal of this repo is to build a debian based docker running always the last version of squid release.
 
-> [!WARNING]
->
->For now last ARM docker image version is `6.12.1`.
-
 > [!IMPORTANT]
 >
 >A recent security Audit was made on Squid showing multiple vulnerabilities. Most of them are not resolved yet. 
@@ -29,6 +25,11 @@ All docker image are build with the following format :
 ```
 For instance for Squid version `6.9` the first image tag will be `6.9.0` 
 If minor changes are made to the docker (without changing the squid version) last degit will be incremented. 
+
+
+> [!WARNING]
+>
+> Starting on version `6.13.9` arm64 version is available with image tag <squid_package_version>.<docker-squid-version>-arm
 
 ## Configuration
 
@@ -53,6 +54,9 @@ services:
           - ./cache:/var/spool/squid
           - ./log:/var/log/squid
 ```
+> [!NOTE]
+>
+>If you are running on a arm64 platform use the following image in the docker-compose.yml: `image: misterbabou/squid:latest-arm`
 
 Run the application
 ```
