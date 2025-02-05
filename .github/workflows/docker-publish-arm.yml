@@ -1,4 +1,4 @@
-name: Publish Docker ARM Image
+name: Publish Docker ARM64 Image
 
 on:
   push:
@@ -37,5 +37,5 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/squid:${{ env.VERSION }}
-#            ${{ secrets.DOCKER_USERNAME }}/squid:latest
+            ${{ secrets.DOCKER_USERNAME }}/squid:${{ env.VERSION }}-arm
+            ${{ secrets.DOCKER_USERNAME }}/squid:latest-arm
