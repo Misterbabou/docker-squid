@@ -37,7 +37,7 @@ If minor changes are made to the docker (without changing the squid version) las
 >
 >It's recommanded to use docker compose to run this application. [Install documentation](https://docs.docker.com/compose/install/)
 
-Use the provided docker-compose.yml or create `docker-compose.yml` file:
+Create the `docker-compose.yml` file:
 ```
 services:
     squid:
