@@ -34,6 +34,9 @@ fi
 
 # default behaviour is to launch squid
 if [[ -z ${1} ]]; then
+  if [ -f /var/run/squid.pid ]; then
+    rm /var/run/squid.pid
+  fi
   if [[ ! -d ${SQUID_CACHE_DIR}/00 ]]; then
     echo "Initializing cache..."
     $(which squid) -N -f ${SQUID_CONF} -z
