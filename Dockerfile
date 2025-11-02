@@ -2,7 +2,7 @@ FROM debian:bookworm AS builder
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV SOURCEURL=https://github.com/squid-cache/squid/releases/download/SQUID_7_2/squid-7.2.tar.gz
+ENV SOURCEURL=https://github.com/squid-cache/squid/releases/download/SQUID_7_3/squid-7.3.tar.gz
 
 ENV builddeps=" \
     build-essential \
