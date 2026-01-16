@@ -101,6 +101,7 @@ ENV SQUID_CACHE_DIR=/var/spool/squid \
     SQUID_LOG_DIR=/var/log/squid \
     SQUID_SSL_DB_DIR=/conf/ssl_db \
     SQUID_USER=proxy \
+    SQUID_ACCESS_LOG_STDOUT=false \
     SQUID_SAMPLE_CONF=/opt/squid.conf.sample \
     SQUID_CONF=/conf/squid.conf \
     LOGROTATE_RETENTION=30

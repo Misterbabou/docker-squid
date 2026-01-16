@@ -32,6 +32,11 @@ elif [[ ${1} == squid || ${1} == $(which squid) ]]; then
   set --
 fi
 
+if [ "$SQUID_ACCESS_LOG_STDOUT" = true ]; then
+  tail -n 0 -F ${SQUID_LOG_DIR}/access.log &
+fi
+
+
 # default behaviour is to launch squid
 if [[ -z ${1} ]]; then
   if [ -f /var/run/squid.pid ]; then
