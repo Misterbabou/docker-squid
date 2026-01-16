@@ -49,6 +49,7 @@ services:
         environment:
           - TZ=Europe/Paris #Set your timezone
           #- LOGROTATE_RETENTION=30 #Days retention for squid log; default is 30
+          #- SQUID_ACCESS_LOG_STDOUT=false #Display logs in docker logs; default is false
         volumes:
           - ./conf:/conf
           - ./cache:/var/spool/squid
