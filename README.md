@@ -13,8 +13,7 @@ The Goal of this repo is to build a debian based docker running always the last 
 
 > [!IMPORTANT]
 >
->A recent security Audit was made on Squid showing multiple vulnerabilities. Most of them are not resolved yet. 
-https://github.com/MegaManSec/Squid-Security-Audit. Thanks to the work of squid team some of them are patched on recent releases 6.X but most linux distro do not have a recent squid package available.
+> It's mandatory if you use squid software to use always the last squid version to patch Security vulnerabilities (https://github.com/squid-cache/squid/security). Most linux distro do not have a recent squid package available.
 The goal of those builds is to provide a simple running docker image resolving security issues patched on new squid releases.
 
 ## Version TAG
