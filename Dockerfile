@@ -1,4 +1,4 @@
-FROM debian:bookworm AS builder
+FROM debian:trixie AS builder
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -14,32 +14,37 @@ ENV builddeps=" \
     openssl \
     "
 ENV requires=" \
+    adduser, \
+    init-system-helpers, \
     libatomic1, \
     libc6, \
     libcap2, \
-    libcomerr2, \
-    libdb5.3, \
+    libcom-err2, \
+    libcrypt1, \
     libdbi-perl, \
     libecap3, \
     libexpat1, \
-    libgcc1, \
-    libgnutls30, \
+    libgcc-s1, \
+    libgnutls30t64, \
     libgssapi-krb5-2, \
     libkrb5-3, \
-    libldap-2.5-0, \
+    libldap2, \
     libltdl7, \
     libnetfilter-conntrack3, \
-    libnettle8, \
+    libnettle8t64, \
     libpam0g, \
     libsasl2-2, \
     libstdc++6, \
-    libxml2, \
+    libsystemd0, \
+    libtdb1, \
+    logrotate, \
+    lsb-base, \
     netbase, \
     openssl \
     "
 
-RUN echo "deb-src [signed-by=/usr/share/keyrings/debian-archive-keyring.gpg] http://deb.debian.org/debian bookworm main" > /etc/apt/sources.list.d/source.list \
- && echo "deb-src [signed-by=/usr/share/keyrings/debian-archive-keyring.gpg] http://deb.debian.org/debian bookworm-updates main" >> /etc/apt/sources.list.d/source.list \
+ RUN echo "deb-src http://deb.debian.org/debian trixie main" > /etc/apt/sources.list.d/source.list \
+ && echo "deb-src http://deb.debian.org/debian trixie-updates main" >> /etc/apt/sources.list.d/source.list \
  && apt-get -qy update \
  && apt-get -qy install ${builddeps} \
  && apt-get -qy upgrade \
@@ -91,7 +96,7 @@ RUN echo "deb-src [signed-by=/usr/share/keyrings/debian-archive-keyring.gpg] htt
 
 RUN mv /build/*.deb /build/squid.deb
 
-FROM debian:bookworm-slim
+FROM debian:trixie-slim
 
 LABEL maintainer="Misterbabou"
 
